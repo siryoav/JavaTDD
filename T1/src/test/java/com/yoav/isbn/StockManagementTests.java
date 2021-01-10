@@ -1,6 +1,7 @@
 package com.yoav.isbn;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,5 +32,23 @@ class StockManagementTests {
 		String locatorCode = stockManager.getLocatorCode(isbn);
 		assertEquals("7396J4", locatorCode);
 	}
-
+	
+	@Test
+	public void dbIsUsedIfDataIsPresent() {
+		ExternalISBNDataService dbService = mock(ExternalISBNDataService.class);
+		ExternalISBNDataService webService = mock(ExternalISBNDataService.class);
+		
+		StockManager stockManager = new StockManager();
+		stockManager.setWebService(webService);
+		stockManager.setDBService(dbService);
+		
+		String isbn = "0140177396";
+		String locatorCode = stockManager.getLocatorCode(isbn);
+		assertEquals("7396J4", locatorCode);
+	}
+	
+	@Test
+	public void webserviceIsUsedIfDataIsNotPresentInDB() {
+		fail();
+	}
 }
