@@ -29,5 +29,13 @@ class ValidateISBNTest {
 			validator.checkISBN("123456789");
 		});
 	}
+	
+	@Test
+	public void noneDigitISBNsAreNotAllowed() {
+		ValidateISBN validator = new ValidateISBN();
+		assertThrows(NumberFormatException.class, () -> {
+			validator.checkISBN("helloworld");
+		});
+	}
 
 }
